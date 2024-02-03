@@ -1,15 +1,15 @@
-What is the capital city of France?: Berlin, Rome, Paris, Madrid : Paris
-In which year did the Titanic sink?: 1905, 1912, 1920, 1931 : 1912
-What is the largest planet in our solar system?: Mars, Jupiter, Venus, Saturn : Jupiter
-Who wrote the play "Romeo and Juliet"?: William Shakespeare, Jane Austen, Charles Dickens, Emily Brontë : William Shakespeare
-What is the chemical symbol for gold?: Gd, Au, Ag, Ge : Au 
-Which planet is known as the "Red Planet"?: Venus, Mars, Jupiter, Saturn : Mars
-What is the capital of Japan?: Seoul, Tokyo, Beijing, Bangkok : Tokyo
-In what year did World War II end?: 1943, 1945, 1950, 1939 : 1945
-Which famous scientist developed the theory of relativity?: Isaac Newton, Albert Einstein, Galileo Galilei, Nikola Tesla : Albert Einstein
-What is the largest ocean on Earth?: Atlantic Ocean, Indian Ocean, Southern Ocean, Pacific Ocean : Pacific Ocean
-Who painted the Mona Lisa?: Vincent van Gogh, Leonardo da Vinci, Pablo Picasso, Michelangelo : Leonardo da Vinci
-What is the currency of Australia?: Dollar, Euro, Pound, Yen : Dollar
-What is the main ingredient in guacamole?: Tomato, Avocado, Onion, Garlic : Avocado
-Who is the author of the Harry Potter series?: J.K. Rowling, George R.R. Martin, J.R.R. Tolkien, Suzanne Collins : J.K. Rowling
-What is the speed of light?: 300,000 km/s, 500,000 km/s, 1,000,000 km/s, 150,000 km/s : 300,000 km/s
+What is the capital city of France?:Paris,Berlin,Rome,Madrid
+In which year did the Titanic sink?:1912,1905,1920 
+What is the largest planet in our solar system?:Jupiter,Mars,Venus,Saturn 
+Who wrote the play "Romeo and Juliet"?:William Shakespeare,Jane Austen,Charles Dickens,Emily Brontë
+What is the chemical symbol for gold?:Au,Gd,Ag,Ge  
+Which planet is known as the "Red Planet"?:Mars,Venus,Jupiter
+What is the capital of Japan?:Tokyo,Seoul,Beijing,Bangkok 
+In what year did World War II end?:1945,1943,1950,1939 
+Which famous scientist developed the theory of relativity?:Albert Einstein,Isaac Newton,Galileo Galilei,Nikola Tesla
+What is the largest ocean on Earth?:Pacific Ocean,Atlantic Ocean,Indian Ocean,Southern Ocean 
+Who painted the Mona Lisa?:Leonardo da Vinci,Vincent van Gogh,Pablo Picasso,Michelangelo 
+What is the currency of Australia?: Dollar,Euro,Pound,Yen
+What is the main ingredient in guacamole?:Avocado,Tomato,Onion,Garlic 
+Who is the author of the Harry Potter series?:J.K. Rowling,George R.R. Martin,J.R.R. Tolkien,Suzanne Collins
+What is the speed of light?:300,000 km/s,500,000 km/s,1,000,000 km/s,150,000 km/s
