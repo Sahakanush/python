@@ -1,4 +1,5 @@
 import random
+import data
 
 count = 3
 points = "0$"
@@ -32,35 +33,6 @@ def help(question, correct, turn):
     else:
         print("Please use the allowed options [1, 2, 3]")
         help()
-
-def prize(i):
-    points = {1:"100$",
-              2:"200$",
-              3:"300$",
-              4:"500$",
-              5:"1000$",
-              6:"2000$",
-              7:"4000$",
-              8:"8000$",
-              9:"16000$",
-              10:"32000$",
-              11:"64000$",
-              12:"125000$",
-              13:"250000$",
-              14:"500000$",
-              15:"1000000$"
-              }
-    return points[i]
-
-def scored_points(turn):
-    scored = {
-        5:"1000$",
-        10:"32000$"
-    }
-    if turn >= 10:
-        return scored[10]
-    if turn >= 5:
-        return scored[5]
         
 def check_answer(question, correct, turn):
     global count, points
@@ -75,21 +47,18 @@ def check_answer(question, correct, turn):
             check_answer(question, correct, turn)
     elif answer.lower() == correct:
         print("TRUE")
-        points = prize(turn)
+        points = data.prize(turn)
         if points == "1000000$":
             return "Win"
         else:
             print("You won", points)
     elif answer.lower() in ["a","b","c","d"]:
-        print("You earned ", scored_points(turn))
+        print("You earned ", data.scored_points(turn))
         print("Game is over")
         exit()
     else:
         print("Please use the allowed options [a,b,c,d]")
         check_answer(question, correct, turn)
-#TODO: Add previous question and answers      
-        #print(generate_question(question, turn))
-        #print(generate_answers())
 
 def generate_answers(answers, correct):
     random.shuffle(answers)
