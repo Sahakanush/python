@@ -1,5 +1,7 @@
-import random
 import data
+import random
+import re
+
 
 count = 3
 points = "0$"
@@ -91,15 +93,26 @@ def game(q):
         q.pop(question)
 
 def get_content(file):
-    data = {}
     with open(file, 'r') as file:
-        questions_data = file.readlines()
+        questions_data = file.readlines()  
+    return questions_data
+
+def is_valid_question(questions):
+    pattern = re.compile(r'^([^?]+)\?:([^,]+),([^,]+),([^,]+),([^,]+)$')
+    for i in questions:
+        valid_question = bool(pattern.match(i))
+        if not valid_question:
+            return False
+    return True
+
+def get_questions(questions_data):
+    data = {}
     for i in questions_data:
         parts = i.split(':')
-        if len(parts) == 3:
+        if len(parts) == 2:
             question = parts[0].strip()
             answer_choices = [choice.strip() for choice in parts[1].split(',')]
-            correct_answer = parts[2].strip()
+            correct_answer = parts[1][0].strip()
 
             data[question] = {
                 'answer_choices': answer_choices,
@@ -109,5 +122,11 @@ def get_content(file):
 
 if __name__ == "__main__":
     file_path = "questions.txt"
-    content = get_content(file_path)
-    game(content)
+    file_content = get_content(file_path)
+    valid_content = is_valid_question(file_content)
+    if valid_content:
+        content = get_questions(file_content)
+        game(content)
+    else:
+        print("The imported data is not valid.")
+        exit()

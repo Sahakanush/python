@@ -1,9 +1,9 @@
 What is the capital city of France?:Paris,Berlin,Rome,Madrid
-In which year did the Titanic sink?:1912,1905,1920 
+In which year did the Titanic sink?:1912,1905,1920,1931
 What is the largest planet in our solar system?:Jupiter,Mars,Venus,Saturn 
 Who wrote the play "Romeo and Juliet"?:William Shakespeare,Jane Austen,Charles Dickens,Emily Brontë
 What is the chemical symbol for gold?:Au,Gd,Ag,Ge  
-Which planet is known as the "Red Planet"?:Mars,Venus,Jupiter
+Which planet is known as the "Red Planet"?:Mars,Venus,Jupiter,Saturn
 What is the capital of Japan?:Tokyo,Seoul,Beijing,Bangkok 
 In what year did World War II end?:1945,1943,1950,1939 
 Which famous scientist developed the theory of relativity?:Albert Einstein,Isaac Newton,Galileo Galilei,Nikola Tesla
@@ -12,4 +12,4 @@ Who painted the Mona Lisa?:Leonardo da Vinci,Vincent van Gogh,Pablo Picasso,Mich
 What is the currency of Australia?: Dollar,Euro,Pound,Yen
 What is the main ingredient in guacamole?:Avocado,Tomato,Onion,Garlic 
 Who is the author of the Harry Potter series?:J.K. Rowling,George R.R. Martin,J.R.R. Tolkien,Suzanne Collins
-What is the speed of light?:300,000 km/s,500,000 km/s,1,000,000 km/s,150,000 km/s
+What is the speed of light?:300.000 km/s,500.000 km/s,1.000.000 km/s,150.000 km/s
