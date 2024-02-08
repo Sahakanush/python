@@ -2,23 +2,47 @@ import data
 import random
 import re
 
-def shorten_answers(answers):
-    correct = answers[0]
-    random_q = random.choice(answers)
+def shorten_answers(answers, answers_list):
+    correct = answers_list[0]
+    answers_list.remove(correct)
+    random_a = random.choice(answers_list)
+    options_list = answers.split('\n')
 
-def phone_a_friend():
-    print("phone_a_friend")
+    for i in options_list:
+        if correct in i or random_a in i:
+            print(i)
+        else:
+            print("X")
 
-def audience():
-    print("audience")
 
-def help(choice, answers):
+def phone_a_friend(correct_answer):
+    print(data.phone_answers(), correct_answer)
+
+def audience(answers, answers_list):
+    correct = answers_list[0]
+    options_list = answers.split('\n')
+    correct_percent = random.randint(50, 100)
+    wrong_percent1 = random.randint(0, 100-correct_percent)
+    wrong_percent2 = random.randint(0, 100-correct_percent-wrong_percent1)
+    wrong_percent3 = 100-correct_percent-wrong_percent1-wrong_percent2
+    percents = [wrong_percent1, wrong_percent2, wrong_percent3]
+    for i in options_list:
+        if correct in i:
+            print(i, " --->", correct_percent, "%")
+        else:
+            print(i, " --->", random.choice(percents) ,"%")
+            percents.pop()
+
+def help(choice, answers, answers_list, question, i):
     if choice == "50:50":
-        shorten_answers(answers)
+        print_question(question, i)
+        shorten_answers(answers, answers_list)
     elif choice == "Phone-a-Friend":
-        phone_a_friend()
+        phone_a_friend(answers_list[0])
+        print_question(question, i, answers)
     elif choice == "Ask the Audience":
-        audience()
+        print_question(question, i)
+        audience(answers, answers_list)
 
 def check_answer(answer, correct_option):
     if answer.lower() == "h":
@@ -30,7 +54,8 @@ def check_answer(answer, correct_option):
     else:
         return "Wrong option"
 
-def generate_answers(answers, correct):
+def generate_answers(answers_data, correct):
+    answers = answers_data.copy()
     option = ["a", "b", "c", "d"]
     random.shuffle(answers)
     answer = []
@@ -48,15 +73,28 @@ def generate_question(q):
 def win():
     print("Congratulations !!!\nYou won 1.000.000$ !!!")
 
-def retry(q, question, answer, correct_option, i, help_options):
-    print()
-    print("You chose an incorrect option. Let's try the same question again.")
-    print(question)
-    print(answer)
+def print_options(help_options):
+    for i in range(len(help_options)):
+        print(i+1, ".", help_options[i], end="  ")
 
-    retry_input = input("Your answer please [if you need any help, write h]: ")
-    result = check_answer(retry_input, correct_option)
+def help_valid_option(help_options, option):
+    if not option.isdigit():
+        return False
+    elif 0 < int(option) <= len(help_options):
+        return True
+    else:
+        return False
     
+def print_question(q, i, a=""):
+    print(i, ".", q, sep="") 
+    print(a)
+    
+def input_answer():
+    incoming_info = input("Your answer please [if you need any help, write h]: ")
+    return incoming_info
+
+def check_result(result, answers, question, i, correct_option, answers_list):
+    help_options = ["50:50", "Phone-a-Friend", "Ask the Audience"]   #  it is refreshed again on each call the function
     if result == "Help":
         print("You have", len(help_options), "help options.")
         print_options(help_options)
@@ -65,14 +103,20 @@ def retry(q, question, answer, correct_option, i, help_options):
         if not valid_option:
             pass
         else:
-            help(help_options[int(choice)-1], q[question]["answer_choices"])
+            help(help_options[int(choice)-1], answers, answers_list, question, i)
             help_options.remove(help_options[int(choice)-1])
+            incoming = input_answer()
+            result = check_answer(incoming, correct_option)
+            check_result(result, answers, question, i, correct_option, answers_list)
     elif result == "Wrong option":
-        retry(q, question, answer, correct_option, i, help_options)
+        print_question(question, i, answers)
+        incoming = input_answer()
+        result = check_answer(incoming, correct_option)
+        check_result(result, answers, question, i, correct_option, answers_list)
     elif result:
         if i == 15:
             print("Congratulations, you won $1,000,000 !!")
-            exit
+            exit()
         elif i == 5 or i == 10:
             print("Congratulations, You've won", data.scored_points(i), " intact")
         else:
@@ -87,61 +131,15 @@ def retry(q, question, answer, correct_option, i, help_options):
             print("You won 0$")
         exit()
 
-def print_options(help_options):
-    for i in range(len(help_options)):
-        print(i+1, ".", help_options[i], end="  ")
-
-def help_valid_option(help_options, option):
-    if 0 < int(option) <= len(help_options):
-        return True
-    else:
-        return False
-    
 def game(q):
     i = 1
-    help_options = ["50:50", "Phone-a-Friend", "Ask the Audience"]
     while len(q) > 0:
-        question = generate_question(q)     
+        question = generate_question(q)    
         answer, correct_option = generate_answers(q[question]["answer_choices"], q[question]["correct_answer"])
-        print(i, ".", question, sep="") 
-        print(answer)
-        print(correct_option)
-
-        if len(help_options) == 0:
-            incoming_info = input("Your answer please [you dont have help options anymore]: ")
-        else:
-            incoming_info = input("Your answer please [if you need any help, write h]: ")
-
-        result = check_answer(incoming_info, correct_option)
-        if result == "Help":
-            print("You have", len(help_options), "help options.")
-            print_options(help_options)
-            choice = input("\nPlease choose an option: ")
-            valid_option = help_valid_option(help_options, choice)
-            if not valid_option:
-                pass
-            else:
-                help(help_options[int(choice)-1], q[question]["answer_choices"])
-                help_options.remove(help_options[int(choice)-1])
-        elif result == "Wrong option":
-            retry(q, question, answer, correct_option, i, help_options)
-        elif result:
-            if i == 15:
-                print("Congratulations, you won $1,000,000 !!")
-                exit()
-            elif i == 5 or i == 10:
-                print("Congratulations, You've won", data.scored_points(i), " intact")
-            else:
-                print("Congratulations, You've won", data.prize(i))
-        elif not result:
-            print("Your answer is wrong, game over")
-            if i >= 10:
-                print("You won", data.scored_points(10))
-            elif i >= 5:
-                print("You won", data.scored_points(5))
-            else:
-                print("You won 0$")
-            exit()
+        print_question(question, i, answer)
+        incoming = input_answer()
+        result = check_answer(incoming, correct_option)
+        check_result(result, answer, question, i, correct_option, q[question]["answer_choices"])
         print()
         i += 1
         q.pop(question)

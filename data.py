@@ -1,3 +1,5 @@
+import random
+
 def prize(i):
     points = {1:"100$",
               2:"200$",
@@ -26,3 +28,13 @@ def scored_points(turn):
         return scored[10]
     if turn >= 5:
         return scored[5]
+    
+def phone_answers():
+    responses = [
+        "Hmm, I think the right answer is...",
+        "Let me think... I'm pretty sure it's...",
+        "Oh, that's a tough one. I'd go with...",
+        "I remember reading about this. I'd say it's...",
+        "I'm not entirely sure, but I'd guess..."
+    ]
+    return random.choice(responses)
