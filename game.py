@@ -127,19 +127,45 @@ def fifty_fifty(answers, correct_answer):
     return remaining_answers, ind1, ind2
 
 # Function to perform the Phone a Friend lifeline
+
 def phone_a_friend(correct_answer):
-    print("Your friend says:", correct_answer)
+    result_text = "Your friend says: " + correct_answer
+    display_lifeline_result(result_text)
+
+def display_lifeline_result(result_text):
+    font = pygame.font.Font(None, 24)
+    result_surface = pygame.Surface((400, 100))
+    result_surface.fill(WHITE)
+    lines = result_text.split('\n')  # Split the result text into lines
+    y_offset = 25  # Initial Y offset for the first line
+    for line in lines:
+        text = font.render(line, True, BLACK)
+        result_surface.blit(text, (50, y_offset))
+        y_offset += 25  # Increment Y offset for the next line
+    screen.blit(result_surface, (200, 250))
+    pygame.display.flip()
+    pygame.time.wait(3000)
+
+# Function to perform the Phone a Friend lifeline
+def phone_a_friend(correct_answer):
+    result_text = "Your friend says: " + correct_answer
+    display_lifeline_result(result_text)
 
 # Function to perform the Ask the Audience lifeline
 def ask_the_audience(answers):
     audience_response = {}
     for answer in answers:
         audience_response[answer] = random.randint(0, 100)
-    total = sum(audience_response.values())
-    percentages = {key: value / total * 100 for key, value in audience_response.items()}
-    print("Audience response percentages:")
-    for answer, percentage in percentages.items():
-        print(answer, ": ", "{:.2f}%".format(percentage))
+
+    # Display the audience response percentages
+    result_text = "Audience response percentages: "
+    for answer in answers:
+        percentage = audience_response[answer]
+        result_text += f"{answer}: {percentage:.2f}%  "
+    
+    # Display the lifeline result within a rectangle
+    display_lifeline_result(result_text)
+
 flag50_50 = "off"
 
 while running:
