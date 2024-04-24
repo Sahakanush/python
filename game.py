@@ -60,6 +60,34 @@ def create_button(text, font, color, hover_color, x, y, width, height):
 
     return button_surface, button_rect
 
+def create_points_button(question_number, scored):
+    points_text = f"Points: {points[question_number]} \n Scored point: {scored}"
+    points_button, points_button_rect = create_button(points_text, points_font, GRAY, GRAY, 50, 50, 400, 50)
+    return points_button, points_button_rect
+
+def start_window():
+    running = True
+    while running:
+        screen.blit(background_image, (0, 0))
+        draw_text("Who Wants to Be a Millionaire", pygame.font.Font(None, 48), ORANGE, screen, 200, 100)
+
+        # Create Start button
+        start_button, start_button_rect = create_button("Start", pygame.font.Font(None, 36), GRAY, WHITE, 300, 300, 200, 50)
+        screen.blit(start_button, start_button_rect)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if start_button_rect.collidepoint(event.pos):
+                    running = False
+
+# Call the start_window function before the main loop
+start_window()
+pygame.time.wait(500)
 # Main loop
 running = True
 clock = pygame.time.Clock()
@@ -85,6 +113,7 @@ points = {
 }
 
 # Initial points
+scored = "0$"
 current_points = 0
 
 def handle_button_click(clicked_answer, correct_answer):
@@ -134,7 +163,7 @@ def phone_a_friend(correct_answer):
 
 def display_lifeline_result(result_text):
     font = pygame.font.Font(None, 24)
-    result_surface = pygame.Surface((400, 100))
+    result_surface = pygame.Surface((400, 150))
     result_surface.fill(WHITE)
     lines = result_text.split('\n')  # Split the result text into lines
     y_offset = 25  # Initial Y offset for the first line
@@ -144,7 +173,7 @@ def display_lifeline_result(result_text):
         y_offset += 25  # Increment Y offset for the next line
     screen.blit(result_surface, (200, 250))
     pygame.display.flip()
-    pygame.time.wait(3000)
+    pygame.time.wait(5000)
 
 # Function to perform the Phone a Friend lifeline
 def phone_a_friend(correct_answer):
@@ -153,21 +182,64 @@ def phone_a_friend(correct_answer):
 
 # Function to perform the Ask the Audience lifeline
 def ask_the_audience(answers):
-    audience_response = {}
-    for answer in answers:
-        audience_response[answer] = random.randint(0, 100)
-
-    # Display the audience response percentages
-    result_text = "Audience response percentages: "
-    for answer in answers:
-        percentage = audience_response[answer]
-        result_text += f"{answer}: {percentage:.2f}%  "
-    
-    # Display the lifeline result within a rectangle
+    correct = answers[0]
+    correct_percent = random.randint(50, 100)
+    wrong_percent1 = random.randint(0, 100-correct_percent)
+    wrong_percent2 = random.randint(0, 100-correct_percent-wrong_percent1)
+    wrong_percent3 = 100-correct_percent-wrong_percent1-wrong_percent2
+    percents = [wrong_percent1, wrong_percent2, wrong_percent3]
+    print(percents)
+    result_text = "Audience response percentages: \n"
+    for i in range(len(answers)):
+        if correct in answers[i]:
+            result_text += f"{answers[i]}: {correct_percent:.2f}%  \n"
+        else:
+            result_text += f"{answers[i]}: {percents[-1]}%  \n"
+            percents.pop()
     display_lifeline_result(result_text)
 
-flag50_50 = "off"
+def display_congratulations_screen(win):
+    screen.fill((255, 255, 255))  # Fill the screen with white
+    font = pygame.font.Font(None, 36)
+    
+    # Load the image
+    win_image = pygame.image.load("win.jpg")
+    win_image_rect = win_image.get_rect(center=(width // 2, height // 2 - 100))
+    screen.blit(win_image, win_image_rect)
+    
+    # Render and display the message
+    text = font.render(f"Congratulations! You Win {win}!", True, (0, 0, 0))  # Black color
+    text_rect = text.get_rect(center=(width // 2, height // 2 + 100))
+    screen.blit(text, text_rect)
+    
+    # Create Quit button
+    quit_button = pygame.Rect(width // 2 - 100, 500, 200, 50)
+    
+    # Render button text
+    font = pygame.font.Font(None, 24)
+    quit_text = font.render("Quit", True, (0, 0, 0))
+    
+    # Get mouse position
+    mouse_pos = pygame.mouse.get_pos()
 
+    pygame.draw.rect(screen, (200, 200, 200), quit_button)  # Default color
+        
+    screen.blit(quit_text, (quit_button.x + 50, quit_button.y + 15))
+    
+    pygame.display.flip()
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                if quit_button.collidepoint(mouse_pos):
+                    pygame.quit()
+                    quit()
+
+flag50_50 = "off"
 while running:
     user_answer = False
     is_50_50 = False
@@ -230,9 +302,15 @@ while running:
             screen.blit(button_surface, button_rect)
 
     # Draw points button
-    points_button, points_button_rect = create_button(f"Points: {points[question_counter]}", points_font, GRAY, GRAY, 50, 50, 130, 50)
+    #points_button, points_button_rect = create_button(f"Points: {points[question_counter]}", points_font, GRAY, GRAY, 50, 50, 130, 50)
+    #screen.blit(points_button, points_button_rect)
+    
+    if question_counter == 5:
+        scored = "1000$"
+    elif question_counter == 10:
+        scored = "32000$"
+    points_button, points_button_rect = create_points_button(question_counter, scored)
     screen.blit(points_button, points_button_rect)
-
     # Update the display
     pygame.display.flip()
 
@@ -242,7 +320,7 @@ while running:
     # Display result after answer is selected
     if answer_selected:
         flag50_50 = "off"
-        pygame.time.wait(3000)  # Wait 5 seconds
+        pygame.time.wait(1000)  # Wait 5 seconds
         if user_answer:
             question_counter += 1
             if question_counter <= 15:
@@ -251,11 +329,10 @@ while running:
                 selected_answer_button = None
                 answer_button_clicked = False
             else:
-                print("Game Over!")
-                running = False
+                print("Congratulations! You Win!")
+                display_congratulations_screen(points[16])
         else:
-            print("Game Over!")
-            running = False
+            display_congratulations_screen(scored)
 
     # Draw selected answer button in orange
     if selected_answer_button:
